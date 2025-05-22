@@ -8,7 +8,8 @@ import {
   SidebarMenuItem, 
   SidebarMenuButton,
   SidebarGroup,
-  SidebarGroupContent
+  SidebarGroupContent,
+  SidebarFooter
 } from "@/components/ui/sidebar";
 import { 
   LayoutDashboard, 
@@ -18,12 +19,26 @@ import {
   BookOpen,
   Code, 
   Zap,
-  User
+  User,
+  LogOut,
+  HelpCircle
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { toast } from "sonner";
 
 export default function MainLayout() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    // TODO: Implement Supabase logout logic
+    toast.success("Logged out successfully");
+    navigate("/login");
+  };
+
+  const handleSupport = () => {
+    // TODO: Implement support action
+    toast.info("Support feature coming soon");
+  };
   return (
     <SidebarProvider defaultOpen={true}>
       <div className="min-h-screen flex w-full">
@@ -84,8 +99,8 @@ export default function MainLayout() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <SidebarMenuButton asChild tooltip="Courses" isActive={window.location.pathname === "/"}>
-                      <Link to="/">
+                    <SidebarMenuButton asChild tooltip="Courses" isActive={window.location.pathname === "/index"}>
+                      <Link to="/index">
                         <BookOpen />
                         <span>Courses</span>
                       </Link>
@@ -118,6 +133,29 @@ export default function MainLayout() {
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
+            <SidebarFooter>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    onClick={handleSupport} 
+                    tooltip="Support"
+                  >
+                    <HelpCircle />
+                    <span>Support</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    onClick={handleLogout} 
+                    tooltip="Logout"
+                    className="text-destructive hover:bg-destructive/10"
+                  >
+                    <LogOut />
+                    <span>Logout</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarFooter>
           </SidebarContent>
         </Sidebar>
         
