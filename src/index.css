@@ -1,0 +1,177 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 280 75% 60%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 288 50% 90%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 280 75% 60%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 280 30% 20%;
+    --sidebar-foreground: 240 5.3% 90%;
+    --sidebar-primary: 280 75% 60%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 288 50% 25%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 280 30% 30%;
+    --sidebar-ring: 280 75% 60%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 280 75% 60%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 288 50% 25%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 280 75% 60%;
+
+    --sidebar-background: 280 30% 20%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 280 75% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 288 50% 25%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 280 30% 30%;
+    --sidebar-ring: 280 75% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Custom scroll bar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30 rounded-full hover:bg-primary/50 transition-colors;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply relative px-3 py-2 text-foreground/80 hover:text-foreground transition-colors duration-200 ease-in-out;
+  }
+  
+  .nav-link.active {
+    @apply text-primary font-medium;
+  }
+  
+  .nav-link.active::after {
+    content: '';
+    @apply absolute left-0 right-0 bottom-0 h-0.5 bg-primary rounded-full;
+    animation: slide-in 0.3s ease-out forwards;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-hover hover:-translate-y-1;
+  }
+  
+  .glass-effect {
+    @apply bg-white/80 dark:bg-black/60 backdrop-blur-sm;
+  }
+  
+  /* Purple to pink gradient backgrounds */
+  .bg-gradient-purple-pink {
+    @apply bg-gradient-to-r from-purple-700 to-pink-600;
+  }
+  
+  .bg-gradient-purple-pink-light {
+    @apply bg-gradient-to-r from-purple-400 to-pink-400;
+  }
+}
+
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Theme overrides for purple/pink theme based on image */
+.rdp-day_selected, 
+.rdp-day_selected:focus-visible, 
+.rdp-day_selected:hover {
+  @apply bg-purple-600 text-white;
+}
+
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  @apply bg-purple-100 text-purple-800;
+}
