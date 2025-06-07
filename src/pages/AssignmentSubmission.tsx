@@ -39,13 +39,49 @@ const AssignmentSubmission = () => {
       });
     }
   };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!uploadedFile) {
+    toast({
+      title: "No file selected",
+      description: "Please upload a file before submitting.",
+      variant: "destructive",
+    });
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", uploadedFile);
+
+  try {
+    await axios.post(
+      `http://localhost:8080/api/courses/${courseId}/modules/${moduleId}/assignments/upload/${assignmentId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
     toast({
       title: "Assignment submitted",
-      description: "Your assignment has been submitted successfully!",
+      description: "Your assignment has been submitted and uploaded to S3!",
     });
-  };
+
+    setUploadedFile(null);
+    setLinkSubmission('');
+  } catch (error) {
+    console.error("Upload failed:", error);
+    toast({
+      title: "Upload failed",
+      description: "Please try again.",
+      variant: "destructive",
+    });
+  }
+};
 
   // If the assignment data is not yet fetched, show a loading message
   if (!assignment) {

@@ -155,24 +155,9 @@ const ModuleDetails = () => {
     return 'bg-purple-500';
   };
 
-  // Handlers for interaction
-  const handleDownload = async (materialId: number) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/courses/${courseId}/modules/${moduleId}/reading-materials/${materialId}/download`,
-        { responseType: 'blob', headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      const blob = new Blob([response.data], { type: 'application/pdf' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `material_${materialId}.pdf`;
-      link.click();
-
-      setCompleted((prev) => ({ ...prev, readingMaterial: true }));
-    } catch (error) {
-      console.error('Error downloading PDF', error);
-    }
+  const handleViewPdf = (s3Url: string) => {
+    setCompleted((prev) => ({ ...prev, material: true }));
+    window.open(s3Url, '_blank');
   };
 
   const handleWatchVideo = (videoUrl: string) => {
@@ -291,9 +276,9 @@ const ModuleDetails = () => {
                   <CardContent>
                     <Button
                       className="w-full bg-purple-600 hover:bg-purple-700 text-white"
-                      onClick={() => handleDownload(material.id)}
+                      onClick={() => handleViewPdf(material.s3Url)}
                     >
-                      Download
+                      View PDF
                     </Button>
                   </CardContent>
                 </Card>
